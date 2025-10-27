@@ -1,17 +1,20 @@
 import { MessageCircle } from "lucide-react"
 import { useEffect } from "react"
+import { useShallow } from "zustand/react/shallow"
 import { Header } from "../components/Header"
 import { Module } from "../components/Module"
 import { Video } from "../components/Video"
 import { useCurrentLesson, useStore } from "../zustand-store"
 
 export function Player() {
-  const { course, load } = useStore((store) => {
-    return {
-      course: store.course,
-      load: store.load,
-    }
-  })
+  const { course, load } = useStore(
+    useShallow((store) => {
+      return {
+        course: store.course,
+        load: store.load,
+      }
+    })
+  )
 
   const { currentLesson } = useCurrentLesson()
 

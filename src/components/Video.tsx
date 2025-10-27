@@ -1,15 +1,18 @@
 import { Loader } from "lucide-react"
 import ReactPlayer from "react-player"
+import { useShallow } from "zustand/react/shallow"
 import { useCurrentLesson, useStore } from "../zustand-store"
 
 export function Video() {
   const { currentLesson } = useCurrentLesson()
-  const { isLoading, next } = useStore((store) => {
-    return {
-      isLoading: store.isLoading,
-      next: store.next,
-    }
-  })
+  const { isLoading, next } = useStore(
+    useShallow((store) => {
+      return {
+        isLoading: store.isLoading,
+        next: store.next,
+      }
+    })
+  )
 
   function handlePlayNext() {
     next()

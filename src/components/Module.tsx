@@ -1,5 +1,6 @@
 import * as Collapsible from "@radix-ui/react-collapsible"
 import { ChevronDown } from "lucide-react"
+import { useShallow } from "zustand/react/shallow"
 import { useStore } from "../zustand-store"
 import { Lesson } from "./Lesson"
 
@@ -10,14 +11,16 @@ interface ModuleProps {
 }
 
 export function Module({ moduleIndex, title, amountOfLessons }: ModuleProps) {
-  const { currentLessonIndex, currentModuleIndex, play, lessons } = useStore((store) => {
-    return {
-      lessons: store.course?.modules[moduleIndex].lessons,
-      currentLessonIndex: store.currentLessonIndex,
-      currentModuleIndex: store.currentModuleIndex,
-      play: store.play,
-    }
-  })
+  const { currentLessonIndex, currentModuleIndex, play, lessons } = useStore(
+    useShallow((store) => {
+      return {
+        lessons: store.course?.modules[moduleIndex].lessons,
+        currentLessonIndex: store.currentLessonIndex,
+        currentModuleIndex: store.currentModuleIndex,
+        play: store.play,
+      }
+    })
+  )
 
   return (
     <Collapsible.Root className="group" defaultOpen={moduleIndex === 0}>
